@@ -15,7 +15,6 @@ function [u, A] = factorizacion_LU(A, b)
             A(i, i) = A(i, i) - A(i, 1:i-1) * A(1:i-1, i);
             if A(i, i) == 0
                 disp('La matriz A no admite factorización LU.')
-                u = 0;
                 return;
             end
             for j = i+1:n
