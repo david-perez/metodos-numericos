@@ -1,4 +1,4 @@
-function u = eliminacion_gaussiana(A, b)
+function [u, A, punt] = eliminacion_gaussiana(A, b, punt)
     n = size(A, 1);
     if size(A, 2) ~= n
         disp('La matriz A no es cuadrada.')
@@ -9,32 +9,34 @@ function u = eliminacion_gaussiana(A, b)
         return;
     end
     
-    punt = [1:n];
+    if nargin == 2 % calcular punt primero
+        punt = [1:n];
     
-    for k = 1:n-1
-        % Permutar filas.
-        r = select_pivot_row(A, k, punt);
-        if r == -1
+        for k = 1:n-1
+            % Permutar filas.
+            r = select_pivot_row(A, k, punt);
+            if r == -1
+                disp('La matriz A no es inversible.')
+                return;
+            end
+            punt([k, r]) = punt([r, k]); % intercambia punt(k) con punt(r).
+
+            for i = k+1:n
+                A(punt(i), k) = A(punt(i),k) / A(punt(k), k);
+                for j = k+1:n
+                    A(punt(i), j) = A(punt(i), j) - A(punt(i), k) * A(punt(k), j);
+                end
+            end
+
+            % read(A, punt)
+        end
+
+        % Puede suceder que en la etapa n-1 ésima aparezca un 0 en U(n, n) en cuyo caso
+        % A no era inversible.
+        if A(punt(n), n) == 0 
             disp('La matriz A no es inversible.')
             return;
         end
-        punt([k, r]) = punt([r, k]); % intercambia punt(k) con punt(r).
-        
-        for i = k+1:n
-            A(punt(i), k) = A(punt(i),k) / A(punt(k), k);
-            for j = k+1:n
-                A(punt(i), j) = A(punt(i), j) - A(punt(i), k) * A(punt(k), j);
-            end
-        end
-        
-        % read(A, punt)
-    end
-    
-    % Puede suceder que en la etapa n-1 ésima aparezca un 0 en U(n, n) en cuyo caso
-    % A no era inversible.
-    if A(punt(n), n) == 0 
-        disp('La matriz A no es inversible.')
-        return;
     end
     
     w = solve_for_w(A, b, punt);
