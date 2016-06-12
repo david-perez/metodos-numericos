@@ -7,16 +7,15 @@ function [m] = spline(T, type, yp0, ypn)
     
     n = size(T, 1) - 1; % número puntos menos 1.
     
+    % Pre-allocate.
     h = zeros(n, 1);
     lam = zeros(n, 1);
     mu = zeros(n, 1);
     d = zeros(n+1, 1);
     
-    for j = 0:n-1
-        h(j+1) = T(j+2, 1) - T(j+1, 1);
-    end
-    
+    h(1) = T(2, 1) - T(1, 1);
     for j = 1:n-1
+        h(j+1) = T(j+2, 1) - T(j+1, 1);
         lam(j+1) = h(j+1)/(h(j) + h(j+1));
         mu(j) = 1 - lam(j+1);
         d(j+1) = 6/(h(j) + h(j+1)) * ((T(j+2,2) - T(j+1,2))/h(j+1) - (T(j+1,2) - T(j,2))/h(j));
