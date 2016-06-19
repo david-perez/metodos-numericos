@@ -9,6 +9,7 @@ function [u, reason] = jacobi(A, b, it, p)
         return;
     end
     
+    reason = 0;
     bn = norm(b);
     r = zeros(n, 1);
     d = zeros(n, 1);
