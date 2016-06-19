@@ -9,6 +9,7 @@ function [u_k1, reason] = relajacion(A, b, it, p, w)
         return;
     end
     
+    reason = 0;
     bn = norm(b);
     r = zeros(n, 1);
     d = zeros(n, 1);
