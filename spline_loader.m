@@ -1,4 +1,4 @@
-disp('Vamos a plottear una función en un intervalo [a, b], junto con una funcion spline cubica interpoladora.');
+disp('Vamos a plottear una función en un intervalo [a, b], junto con una función spline cúbica interpoladora.');
 astr = input('Valor de a: ');
 bstr = input('Valor de b: ');
 eval('a = astr;');
@@ -21,7 +21,7 @@ for i = 1:n
     p = p + h;
 end
 
-t = input('Tipo de la funcion spline (1 o 2):');
+t = input('Tipo de la función spline (1 o 2):');
 
 if (t == 2)
     yp0 = input('Valor de la derivada en a:');
