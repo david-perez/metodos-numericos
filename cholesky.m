@@ -30,9 +30,35 @@ function [u, A] = cholesky(A, b)
     u = solve_for_u(A', w);
 end
 
+% Resuelve el sistema triangular inferior Lw = b.
+% Precondición: length(b) = size(A, 1).
+function w = solve_for_w(A, b)
+    for i = 1:size(A, 1)
+        w(i) = b(i);
+        for j = 1:i-1
+            w(i) = w(i) - A(i, j) * w(j);
+        end
+        w(i) = w(i) / A(i, i);
+    end
+end
+
+% Resuelve el sistema triangular superior Uu = w.
+% La parte triangular superior de A almacena U.
+% Precondicion: length(b) = size(A, 1).
+function u = solve_for_u(A, w)
+    for i = size(A, 1):-1:1
+        s = 0;
+        for j = i+1:size(A, 1)
+            s = s + A(i, j) * u(j);
+        end
+        u(i) = (w(i) - s) / A(i, i);
+    end
+end
+
 % Resuelve el sistema triangular inferior Bw = b.
 % Precondición: length(b) = size(B, 1).
-function w = solve_for_w(B, b)
+% Es más eficiente que solve_for_w pero solamente funciona en MATLAB.
+function w = solve_for_w2(B, b)
     w = zeros(size(B, 1), 1); % Dynamic resizing debería ser amortized O(1) si lo programaron bien, pero por si acaso...
     for i = 1:size(B, 1)
         w(i) = 1 / B(i, i) * (b(i) - B(i, 1:i-1) * w(1:i-1));
@@ -41,7 +67,8 @@ end
 
 % Resuelve el sistema triangular superior Bu = w.
 % Precondicion: length(b) = size(B, 1).
-function u = solve_for_u(B, w)
+% Es más eficiente que solve_for_u pero solamente funciona en MATLAB.
+function u = solve_for_u2(B, w)
     u = zeros(size(B, 1), 1);
     for i = size(B, 1):-1:1
         u(i) = 1 / B(i, i) * (w(i) - B(i,i+1:end) * u(i+1:end));
