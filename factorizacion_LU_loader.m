@@ -1,4 +1,4 @@
-disp('Vamos a resolver varios sistemas lineales Au = b, con A una matriz inversible fija, mediante su factorizacion LU.');
+disp('Vamos a resolver varios sistemas lineales Au = b, con A una matriz inversible fija, mediante su factorización LU.');
 A = square_matrix_loader();
 b = vector_loader(size(A, 1), 'b');
 
