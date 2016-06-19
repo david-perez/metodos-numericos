@@ -1,9 +1,10 @@
-function [m] = spline(T, type, yp0, ypn)
+function spline(T, type, r, yp0, ypn)
     % T es un vector (n+1)*2.
     % En la primera columna están x0, x1, ..., xn
     % En la segunda columna están y0, y1, ..., yn
     % type es el tipo de función spline interpoladora, I o II.
     % Si type es 2, yp0 es y'0, ypn es y'n.
+    % r es igual a 0 si esta función ha sido llamada desde spline_loader, 1 en otro caso.
     
     n = size(T, 1) - 1; % número puntos menos 1.
     
@@ -47,10 +48,14 @@ function [m] = spline(T, type, yp0, ypn)
         m(j, 4) = -c * T(j, 1)^3 + b * T(j, 1)^2 - a * T(j, 1) + T(j, 2);
     end
     
-    hold on
+    if r == 1
+        hold on
+    end
     for j = 1:n
         r = linspace(T(j, 1), T(j+1, 1), 100);
         plot(r, polyval(m(j, :), r));
     end
-    hold off
+    if r == 1
+        hold off
+    end
 end
