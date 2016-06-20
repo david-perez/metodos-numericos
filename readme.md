@@ -20,7 +20,7 @@ Por ejemplo, si uno sabe ya que la función `factorizacion_LU(A, b)` toma como a
 --> factorizacion_LU(A, b) 
 ```
 
-pasándole directamente los datos, o bien ejecutar:
+pasándole directamente los datos, o bien ejecutar
 
 ```
 --> factorizacion_LU_loader()
